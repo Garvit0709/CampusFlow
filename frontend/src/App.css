@@ -1,0 +1,435 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f6fa;
+  color: #1e293b;
+}
+
+.app {
+  width: 100%;
+}
+
+.header {
+  background: #123456;
+  color: white;
+  padding: 24px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.header p {
+  margin: 10px 0 0;
+}
+
+.app-user-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.app-user-bar span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.admin-open-button,
+.logout-button {
+  padding: 11px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+}
+
+.admin-open-button {
+  background: #2563eb;
+  border: 1px solid #ffffff55;
+}
+
+.logout-button {
+  background: transparent;
+  border: 1px solid #ffffff88;
+}
+
+.admin-open-button:hover {
+  background: #1d4ed8;
+}
+
+.logout-button:hover {
+  background: #ffffff22;
+}
+
+.controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding: 24px;
+  flex-wrap: wrap;
+}
+
+.controls select,
+.controls input[type="date"],
+.crowd-controls select,
+.prediction-field select,
+.prediction-field input {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.controls select {
+  min-width: 210px;
+}
+
+.controls button {
+  padding: 12px 22px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.controls button:hover {
+  background: #15803d;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.route-info,
+.crowd-section,
+.reports-section,
+.prediction-section {
+  background: white;
+  margin: 0 24px 20px;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #00000010;
+}
+
+.route-info {
+  border-left: 5px solid #16a34a;
+}
+
+.route-info h2,
+.crowd-section h2,
+.reports-section h2,
+.prediction-section h2 {
+  margin-top: 0;
+  color: #123456;
+}
+
+.route-info p {
+  line-height: 1.6;
+}
+
+.message {
+  color: #b91c1c;
+  text-align: center;
+  padding: 10px;
+}
+
+/* CROWD REPORTING */
+
+.crowd-controls {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.crowd-controls select {
+  min-width: 180px;
+}
+
+.crowd-controls button {
+  padding: 12px 20px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.crowd-message {
+  margin-top: 15px;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.crowd-message.error {
+  color: #b91c1c;
+}
+
+/* AI PREDICTION */
+
+.prediction-section {
+  border-top: 4px solid #7c3aed;
+}
+
+.prediction-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.prediction-heading p {
+  color: #64748b;
+}
+
+.ai-label {
+  padding: 8px 14px;
+  background: #ede9fe;
+  color: #6d28d9;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.prediction-controls {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.prediction-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.prediction-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.prediction-field select,
+.prediction-field input {
+  width: 100%;
+  height: 44px;
+}
+
+.predict-button {
+  height: 44px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 8px;
+  background: #7c3aed;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.prediction-error {
+  color: #b91c1c;
+  font-weight: 600;
+  margin-top: 15px;
+}
+
+.prediction-result {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid #ddd6fe;
+  background: #faf8ff;
+  border-radius: 12px;
+}
+
+.prediction-result-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.result-label {
+  margin: 0 0 8px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.prediction-result h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.prediction-time {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.prediction-badge {
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.prediction-badge.low,
+.crowd-badge.low {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.prediction-badge.medium,
+.crowd-badge.medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.prediction-badge.high,
+.crowd-badge.high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.confidence-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 22px 0;
+  padding: 16px;
+  background: white;
+  border-radius: 10px;
+  gap: 12px;
+}
+
+.confidence-box strong {
+  font-size: 26px;
+  color: #6d28d9;
+}
+
+.probability-list {
+  display: grid;
+  gap: 15px;
+}
+
+.probability-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 7px;
+}
+
+.probability-track {
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.probability-fill {
+  height: 100%;
+  border-radius: 20px;
+}
+
+.probability-fill.low {
+  background: #16a34a;
+}
+
+.probability-fill.medium {
+  background: #f59e0b;
+}
+
+.probability-fill.high {
+  background: #dc2626;
+}
+
+.prediction-disclaimer {
+  margin: 20px 0 0;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* REPORTS */
+
+.reports-list {
+  display: grid;
+  gap: 10px;
+}
+
+.report-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.crowd-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* MAP */
+
+.map-wrapper {
+  height: 65vh;
+  min-height: 400px;
+  margin: 0 24px 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+}
+
+@media (max-width: 768px) {
+  .controls,
+  .crowd-controls,
+  .prediction-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls select,
+  .controls input[type="date"],
+  .controls button,
+  .crowd-controls select,
+  .crowd-controls button,
+  .prediction-field,
+  .predict-button {
+    width: 100%;
+  }
+
+  .route-info,
+  .crowd-section,
+  .reports-section,
+  .prediction-section {
+    margin: 0 12px 16px;
+    padding: 18px;
+  }
+
+  .map-wrapper {
+    margin: 0 12px 12px;
+  }
+}

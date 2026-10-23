@@ -1,0 +1,16 @@
+
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+
+# Environment secrets
+.env
+**/.env
+
+# React
+node_modules/
+dist/
+
+# Editor
+.vscode/
