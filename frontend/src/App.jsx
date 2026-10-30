@@ -12,14 +12,11 @@ import {
 
 import AuthPage from "./AuthPage";
 import AdminDashboard from "./AdminDashboard";
-import BidholiMap from "./BidholiMap";
 
 import "leaflet/dist/leaflet.css";
 import "./App.css";
 
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "http://127.0.0.1:8000";
+const API_URL = "http://127.0.0.1:8000";
 
 const DEFAULT_DATE = "2026-10-26";
 const DEFAULT_HOUR = "13:00";
@@ -44,12 +41,11 @@ async function parseResponse(response) {
 
     try {
       const data = await response.json();
-
       if (typeof data.detail === "string") {
         message = data.detail;
       }
     } catch {
-      // Keep default error message
+      // Keep default message
     }
 
     const error = new Error(message);
@@ -61,46 +57,27 @@ async function parseResponse(response) {
 }
 
 function App() {
-  // ====================================
-  // AUTHENTICATION & CAMPUS SWITCHING
-  // ====================================
-
+  // Authentication
   const [session, setSession] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
-  const [activeCampus, setActiveCampus] = useState("demo");
 
   const user = session?.user;
   const token = session?.token;
+
   const isAdmin = user?.role === "admin";
 
   const handleLogout = useCallback(() => {
     setSession(null);
     setShowAdmin(false);
-    setActiveCampus("demo");
   }, []);
 
-  function openBidholi() {
-    setShowAdmin(false);
-    setActiveCampus("bidholi");
-  }
-
-  function returnToDemo() {
-    setActiveCampus("demo");
-  }
-
-  // ====================================
-  // CAMPUS DATA
-  // ====================================
-
+  // Campus data
   const [campusLocations, setCampusLocations] = useState([]);
   const [campusEdges, setCampusEdges] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [dataError, setDataError] = useState("");
 
-  // ====================================
-  // ROUTING
-  // ====================================
-
+  // Routing
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
   const [routingMode, setRoutingMode] = useState("smart");
@@ -110,10 +87,7 @@ function App() {
   const [routeMessage, setRouteMessage] = useState("");
   const [loadingRoute, setLoadingRoute] = useState(false);
 
-  // ====================================
-  // CROWD REPORTING
-  // ====================================
-
+  // Crowd reporting
   const [crowdLocation, setCrowdLocation] = useState("");
   const [crowdLevel, setCrowdLevel] = useState("medium");
   const [crowdMessage, setCrowdMessage] = useState("");
@@ -122,27 +96,18 @@ function App() {
   const [crowdReports, setCrowdReports] = useState([]);
   const [currentCrowds, setCurrentCrowds] = useState({});
 
-  // ====================================
-  // ML PREDICTION
-  // ====================================
-
+  // ML prediction
   const [predictionLocation, setPredictionLocation] =
     useState("cafeteria");
-
   const [predictionDate, setPredictionDate] =
     useState(DEFAULT_DATE);
-
   const [predictionHour, setPredictionHour] =
     useState(DEFAULT_HOUR);
-
   const [prediction, setPrediction] = useState(null);
   const [predictionError, setPredictionError] = useState("");
   const [predicting, setPredicting] = useState(false);
 
-  // ====================================
-  // LOAD EXISTING DEMO CAMPUS DATA
-  // ====================================
-
+  // Load public campus data
   useEffect(() => {
     let active = true;
 
@@ -192,19 +157,16 @@ function App() {
       fetch(`${API_URL}/crowd/reports`),
     ]);
 
-    const [crowds, reports] =
-      await Promise.all(
-        responses.map(parseResponse)
-      );
+    const [crowds, reports] = await Promise.all(
+      responses.map(parseResponse)
+    );
 
     setCurrentCrowds(crowds);
     setCrowdReports(reports);
   }
 
   function getLocation(id) {
-    return campusLocations.find(
-      (location) => location.id === id
-    );
+    return campusLocations.find((loc) => loc.id === id);
   }
 
   function resetRoute() {
@@ -212,10 +174,7 @@ function App() {
     setRouteMessage("");
   }
 
-  // ====================================
-  // DIJKSTRA ROUTING
-  // ====================================
-
+  // Shortest, live smart and ML routing
   async function findRoute() {
     if (!source || !destination) {
       setRouteMessage("Please select both locations.");
@@ -268,10 +227,7 @@ function App() {
     }
   }
 
-  // ====================================
-  // AUTHENTICATED CROWD REPORTING
-  // ====================================
-
+  // Authenticated crowd reporting
   async function submitCrowdReport() {
     if (!token) {
       setCrowdError(true);
@@ -335,10 +291,7 @@ function App() {
     }
   }
 
-  // ====================================
-  // RANDOM FOREST CROWD PREDICTION
-  // ====================================
-
+  // Single-location ML prediction
   async function predictCrowd() {
     if (!predictionLocation || !predictionDate) {
       setPredictionError("Select location and date.");
@@ -373,15 +326,11 @@ function App() {
     }
   }
 
-  // ====================================
-  // MAP DATA
-  // ====================================
-
   const routeCoordinates = route
     ? route.path
         .map((id) => getLocation(id))
         .filter(Boolean)
-        .map((location) => location.position)
+        .map((loc) => loc.position)
     : [];
 
   const routeNames = route
@@ -392,7 +341,7 @@ function App() {
 
   const campusCenter = campusLocations.length
     ? campusLocations[0].position
-    : [30.41717, 77.96819];
+    : [28.6144, 77.2105];
 
   const predictionPercentages = prediction
     ? ["low", "medium", "high"].map((level) => ({
@@ -402,18 +351,12 @@ function App() {
       }))
     : [];
 
-  // ====================================
-  // LOGIN SCREEN
-  // ====================================
-
+  // Authentication screen
   if (!session) {
     return <AuthPage onLogin={setSession} />;
   }
 
-  // ====================================
-  // ADMIN DASHBOARD
-  // ====================================
-
+  // Protected admin dashboard
   if (showAdmin && isAdmin) {
     return (
       <AdminDashboard
@@ -423,22 +366,6 @@ function App() {
       />
     );
   }
-
-  // ====================================
-  // UPES BIDHOLI CAMPUS MAP
-  // ====================================
-
-  if (activeCampus === "bidholi") {
-    return (
-      <BidholiMap
-        onBack={returnToDemo}
-      />
-    );
-  }
-
-  // ====================================
-  // EXISTING DEMO CAMPUS
-  // ====================================
 
   return (
     <div className="app">
@@ -451,15 +378,9 @@ function App() {
 
         <div className="app-user-bar">
           <span>
-            Welcome, {user.full_name} ({user.role})
+            Welcome, {user.full_name}
+            {" "}({user.role})
           </span>
-
-          <button
-            className="bidholi-open-button"
-            onClick={openBidholi}
-          >
-            Explore UPES Bidholi Campus
-          </button>
 
           {isAdmin && (
             <button
@@ -492,8 +413,7 @@ function App() {
           </p>
         )}
 
-        {/* ROUTING CONTROLS */}
-
+        {/* ROUTING */}
         <section className="controls">
           <select
             value={source}
@@ -503,16 +423,10 @@ function App() {
               resetRoute();
             }}
           >
-            <option value="">
-              Select Starting Point
-            </option>
-
-            {campusLocations.map((location) => (
-              <option
-                key={location.id}
-                value={location.id}
-              >
-                {location.name}
+            <option value="">Select Starting Point</option>
+            {campusLocations.map((loc) => (
+              <option key={loc.id} value={loc.id}>
+                {loc.name}
               </option>
             ))}
           </select>
@@ -525,16 +439,10 @@ function App() {
               resetRoute();
             }}
           >
-            <option value="">
-              Select Destination
-            </option>
-
-            {campusLocations.map((location) => (
-              <option
-                key={location.id}
-                value={location.id}
-              >
-                {location.name}
+            <option value="">Select Destination</option>
+            {campusLocations.map((loc) => (
+              <option key={loc.id} value={loc.id}>
+                {loc.name}
               </option>
             ))}
           </select>
@@ -550,11 +458,9 @@ function App() {
             <option value="shortest">
               Shortest Distance
             </option>
-
             <option value="smart">
               Smart Route (Live Reports)
             </option>
-
             <option value="ml">
               AI Predicted Smart Route
             </option>
@@ -609,8 +515,6 @@ function App() {
           </p>
         )}
 
-        {/* ROUTE RESULTS */}
-
         {route && (
           <section className="route-info">
             <h2>
@@ -652,20 +556,15 @@ function App() {
             {route.mode === "ml" && (
               <p>
                 <strong>Departure:</strong>{" "}
-                {route.departure_time?.replace(
-                  "T",
-                  " "
-                )}
+                {route.departure_time?.replace("T", " ")}
               </p>
             )}
           </section>
         )}
 
         {/* CROWD REPORTING */}
-
         <section className="crowd-section">
           <h2>Report Campus Crowd</h2>
-
           <p>
             Help students identify congested areas.
           </p>
@@ -677,16 +576,11 @@ function App() {
                 setCrowdLocation(e.target.value)
               }
             >
-              <option value="">
-                Select Location
-              </option>
+              <option value="">Select Location</option>
 
-              {campusLocations.map((location) => (
-                <option
-                  key={location.id}
-                  value={location.id}
-                >
-                  {location.name}
+              {campusLocations.map((loc) => (
+                <option key={loc.id} value={loc.id}>
+                  {loc.name}
                 </option>
               ))}
             </select>
@@ -697,17 +591,9 @@ function App() {
                 setCrowdLevel(e.target.value)
               }
             >
-              <option value="low">
-                Low Crowd
-              </option>
-
-              <option value="medium">
-                Medium Crowd
-              </option>
-
-              <option value="high">
-                High Crowd
-              </option>
+              <option value="low">Low Crowd</option>
+              <option value="medium">Medium Crowd</option>
+              <option value="high">High Crowd</option>
             </select>
 
             <button
@@ -738,13 +624,11 @@ function App() {
           )}
         </section>
 
-        {/* AI CROWD PREDICTION */}
-
+        {/* AI PREDICTION */}
         <section className="prediction-section">
           <div className="prediction-heading">
             <div>
               <h2>AI Crowd Prediction</h2>
-
               <p>
                 Predict congestion at a campus location.
               </p>
@@ -769,12 +653,9 @@ function App() {
                   setPrediction(null);
                 }}
               >
-                {campusLocations.map((location) => (
-                  <option
-                    key={location.id}
-                    value={location.id}
-                  >
-                    {location.name}
+                {campusLocations.map((loc) => (
+                  <option key={loc.id} value={loc.id}>
+                    {loc.name}
                   </option>
                 ))}
               </select>
@@ -810,10 +691,7 @@ function App() {
                 }}
               >
                 {HOURS.map((hour) => (
-                  <option
-                    key={hour}
-                    value={hour}
-                  >
+                  <option key={hour} value={hour}>
                     {hour}
                   </option>
                 ))}
@@ -853,16 +731,13 @@ function App() {
                   </p>
 
                   <h3>
-                    {getLocation(
-                      prediction.location_id
-                    )?.name ||
+                    {getLocation(prediction.location_id)?.name ||
                       prediction.location_id}
                   </h3>
 
                   <p className="prediction-time">
                     {prediction.prediction_time.replace(
-                      "T",
-                      " "
+                      "T", " "
                     )}
                   </p>
                 </div>
@@ -878,52 +753,42 @@ function App() {
               </div>
 
               <div className="confidence-box">
-                <span>
-                  Model Confidence
-                </span>
+                <span>Model Confidence</span>
 
                 <strong>
-                  {Number(
-                    prediction.confidence
-                  ).toFixed(2)}%
+                  {Number(prediction.confidence).toFixed(2)}%
                 </strong>
               </div>
 
-              <h4>
-                Predicted Class Probabilities
-              </h4>
+              <h4>Predicted Class Probabilities</h4>
 
               <div className="probability-list">
-                {predictionPercentages.map(
-                  (item) => (
-                    <div
-                      className="probability-item"
-                      key={item.level}
-                    >
-                      <div className="probability-label">
-                        <span>
-                          {item.level.toUpperCase()}
-                        </span>
-
-                        <strong>
-                          {item.percentage.toFixed(2)}%
-                        </strong>
-                      </div>
-
-                      <div className="probability-track">
-                        <div
-                          className={
-                            `probability-fill ${item.level}`
-                          }
-                          style={{
-                            width:
-                              `${item.percentage}%`,
-                          }}
-                        />
-                      </div>
+                {predictionPercentages.map((item) => (
+                  <div
+                    className="probability-item"
+                    key={item.level}
+                  >
+                    <div className="probability-label">
+                      <span>
+                        {item.level.toUpperCase()}
+                      </span>
+                      <strong>
+                        {item.percentage.toFixed(2)}%
+                      </strong>
                     </div>
-                  )
-                )}
+
+                    <div className="probability-track">
+                      <div
+                        className={
+                          `probability-fill ${item.level}`
+                        }
+                        style={{
+                          width: `${item.percentage}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <p className="prediction-disclaimer">
@@ -935,7 +800,6 @@ function App() {
         </section>
 
         {/* RECENT CROWD REPORTS */}
-
         <section className="reports-section">
           <h2>Recent Crowd Reports</h2>
 
@@ -943,33 +807,29 @@ function App() {
             <p>No crowd reports available.</p>
           ) : (
             <div className="reports-list">
-              {crowdReports
-                .slice(0, 8)
-                .map((report) => (
-                  <div
-                    className="report-item"
-                    key={report.id}
-                  >
-                    <span>
-                      {report.location_name}
-                    </span>
+              {crowdReports.slice(0, 8).map((report) => (
+                <div
+                  className="report-item"
+                  key={report.id}
+                >
+                  <span>
+                    {report.location_name}
+                  </span>
 
-                    <span
-                      className={
-                        `crowd-badge ` +
-                        report.crowd_level
-                      }
-                    >
-                      {report.crowd_level.toUpperCase()}
-                    </span>
-                  </div>
-                ))}
+                  <span
+                    className={
+                      `crowd-badge ${report.crowd_level}`
+                    }
+                  >
+                    {report.crowd_level.toUpperCase()}
+                  </span>
+                </div>
+              ))}
             </div>
           )}
         </section>
 
-        {/* EXISTING DEMO CAMPUS MAP */}
-
+        {/* INTERACTIVE CAMPUS MAP */}
         <div className="map-wrapper">
           <MapContainer
             center={campusCenter}
@@ -986,21 +846,17 @@ function App() {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {campusLocations.map((location) => (
+            {campusLocations.map((loc) => (
               <Marker
-                key={location.id}
-                position={location.position}
+                key={loc.id}
+                position={loc.position}
               >
                 <Popup>
-                  <strong>
-                    {location.name}
-                  </strong>
-
+                  <strong>{loc.name}</strong>
                   <p>
                     Recent Crowd:{" "}
                     {(
-                      currentCrowds[location.id] ||
-                      "low"
+                      currentCrowds[loc.id] || "low"
                     ).toUpperCase()}
                   </p>
                 </Popup>
