@@ -14,6 +14,8 @@ body {
   width: 100%;
 }
 
+/* HEADER */
+
 .header {
   background: #123456;
   color: white;
@@ -44,13 +46,17 @@ body {
   font-weight: 600;
 }
 
+/* HEADER BUTTONS */
+
 .admin-open-button,
-.logout-button {
+.logout-button,
+.bidholi-open-button {
   padding: 11px 18px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   color: white;
+  transition: background 0.2s ease;
 }
 
 .admin-open-button {
@@ -58,18 +64,31 @@ body {
   border: 1px solid #ffffff55;
 }
 
+.admin-open-button:hover {
+  background: #1d4ed8;
+}
+
 .logout-button {
   background: transparent;
   border: 1px solid #ffffff88;
 }
 
-.admin-open-button:hover {
-  background: #1d4ed8;
-}
-
 .logout-button:hover {
   background: #ffffff22;
 }
+
+/* NEW BIDHOLI BUTTON */
+
+.bidholi-open-button {
+  background: #16a34a;
+  border: 1px solid #ffffff55;
+}
+
+.bidholi-open-button:hover {
+  background: #15803d;
+}
+
+/* ROUTING */
 
 .controls {
   display: flex;
@@ -114,6 +133,8 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* CONTENT SECTIONS */
 
 .route-info,
 .crowd-section,
@@ -368,7 +389,7 @@ button:disabled {
   line-height: 1.6;
 }
 
-/* REPORTS */
+/* RECENT REPORTS */
 
 .reports-list {
   display: grid;
@@ -392,7 +413,7 @@ button:disabled {
   font-weight: bold;
 }
 
-/* MAP */
+/* LEAFLET MAP */
 
 .map-wrapper {
   height: 65vh;
@@ -402,6 +423,8 @@ button:disabled {
   overflow: hidden;
   border: 1px solid #cbd5e1;
 }
+
+/* MOBILE RESPONSIVENESS */
 
 @media (max-width: 768px) {
   .controls,
@@ -431,5 +454,16 @@ button:disabled {
 
   .map-wrapper {
     margin: 0 12px 12px;
+  }
+
+  .app-user-bar {
+    flex-direction: column;
+  }
+
+  .bidholi-open-button,
+  .admin-open-button,
+  .logout-button {
+    width: 100%;
+    max-width: 320px;
   }
 }
