@@ -73,3 +73,8 @@ __pycache__/
 .env
 .env.*
 !.env.example
+# Performance benchmark reports
+bidholi_performance_report.txt
+# CampusFlow performance backups and reports
+bidholi_pedestrian_routing_pre_cache.py
+bidholi_performance_report.txt
