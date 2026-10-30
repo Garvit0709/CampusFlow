@@ -7,10 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, EmailStr
 from psycopg import Error as DatabaseError
 from psycopg.errors import UniqueViolation
-from bidholi_routing import router as bidholi_router
-from bidholi_pedestrian_routing import (
-    router as pedestrian_router
-)
+
 from database import (
     get_connection,
     get_locations,
@@ -42,7 +39,6 @@ from auth import (
 )
 
 
-
 app = FastAPI(
     title="CampusFlow API",
     description=(
@@ -51,11 +47,6 @@ app = FastAPI(
     ),
     version="2.0.0",
 )
-
-# UPES Bidholi Navigation Routes
-app.include_router(bidholi_router)
-app.include_router(pedestrian_router)
-
 
 app.add_middleware(
     CORSMiddleware,
