@@ -1,0 +1,145 @@
+
+/* CampusFlow Phase 9.8.2 */
+
+.bidholi-directions {
+  margin-top: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.bidholi-directions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.bidholi-directions-header h3 {
+  margin: 7px 0;
+  color: #102b46;
+  font-size: 19px;
+}
+
+.bidholi-directions-count {
+  padding: 7px 11px;
+  border-radius: 20px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bidholi-directions-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.bidholi-directions-summary > div {
+  padding: 14px;
+  background: #f8fafc;
+  border-radius: 9px;
+}
+
+.bidholi-directions-summary small {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.bidholi-directions-summary strong {
+  color: #102b46;
+  font-size: 19px;
+}
+
+.bidholi-directions-steps {
+  display: flex;
+  flex-direction: column;
+}
+
+.bidholi-direction-step {
+  position: relative;
+  display: flex;
+  gap: 15px;
+  padding-bottom: 22px;
+}
+
+.bidholi-direction-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  bottom: 3px;
+  left: 14px;
+  width: 2px;
+  background: #cbd5e1;
+}
+
+.bidholi-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 800;
+  z-index: 1;
+}
+
+.bidholi-direction-step.start .bidholi-step-number {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.bidholi-direction-step.destination
+.bidholi-step-number {
+  background: #102b46;
+  color: #ffffff;
+}
+
+.bidholi-direction-step strong {
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.bidholi-direction-step p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.bidholi-directions-alert {
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff7ed;
+  color: #9a3412;
+  font-size: 13px;
+}
+
+.bidholi-directions-note {
+  padding: 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .bidholi-directions {
+    padding: 15px;
+  }
+
+  .bidholi-directions-summary {
+    grid-template-columns: 1fr;
+  }
+}
