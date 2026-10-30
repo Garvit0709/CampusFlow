@@ -1,0 +1,98 @@
+{
+  "campus": "UPES Bidholi",
+  "schema_version": 1,
+  "coordinate_system": "WGS84",
+  "exported_at": "2026-10-30T09:15:20.962Z",
+  "junctions": [
+    {
+      "id": "J1",
+      "name": "2nd–3rd Block Midway",
+      "latitude": 30.4164216610482,
+      "longitude": 77.96796374515452,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    },
+    {
+      "id": "J2",
+      "name": "4th–5th Block Midway",
+      "latitude": 30.41604711316674,
+      "longitude": 77.96782695620459,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    },
+    {
+      "id": "J3",
+      "name": "Café–Frisco Central Walkway",
+      "latitude": 30.416282660151804,
+      "longitude": 77.96785105898734,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    },
+    {
+      "id": "J4",
+      "name": "3rd–6th Staircase Crossing",
+      "latitude": 30.416703651796524,
+      "longitude": 77.96798968199471,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    },
+    {
+      "id": "J6",
+      "name": "MAC–Library–IT Road Turn",
+      "latitude": 30.41690464685588,
+      "longitude": 77.9675876637531,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    },
+    {
+      "id": "J7",
+      "name": "2nd–3rd Side Road to MAC",
+      "latitude": 30.41663362131689,
+      "longitude": 77.96796784146697,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    },
+    {
+      "id": "J8",
+      "name": "Museum-side Road Junction",
+      "latitude": 30.418026086608588,
+      "longitude": 77.9690508484629,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    },
+    {
+      "id": "J9",
+      "name": "MAC to Food Court 2 Turn",
+      "latitude": 30.416992098149173,
+      "longitude": 77.9672971690144,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    },
+    {
+      "id": "J10",
+      "name": "Management Building–Girls Hostel Turn",
+      "latitude": 30.41803194415322,
+      "longitude": 77.9693726245085,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    },
+    {
+      "id": "J5",
+      "name": "5th Block to Gandhi Chowk Turn",
+      "latitude": 30.41610751296807,
+      "longitude": 77.96816690960506,
+      "type": "pedestrian_junction",
+      "position_source": "manual_map_click",
+      "verified_on_ground": false
+    }
+  ]
+}
