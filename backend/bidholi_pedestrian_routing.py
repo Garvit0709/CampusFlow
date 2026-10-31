@@ -3,7 +3,6 @@
 # CampusFlow Phase 9.9.2.3
 # UPES Bidholi Pedestrian Routing + Thread-Safe Graph Cache
 # ============================================================
-
 import heapq
 import math
 import os
@@ -15,6 +14,8 @@ from pathlib import Path
 import psycopg
 from psycopg.rows import dict_row
 from dotenv import load_dotenv
+from psycopg_pool import PoolTimeout
+from bidholi_db_pool import get_pool
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
@@ -132,7 +133,7 @@ def load_graph():
             )
 
         try:
-            with connect() as conn:
+            with get_pool().connection() as conn:
 
                 buildings = conn.execute("""
                     SELECT
@@ -165,11 +166,15 @@ def load_graph():
                     FROM bidholi_pedestrian_edges
                 """).fetchall()
 
-        except psycopg.Error as exc:
+       
+        
+        except (psycopg.Error, PoolTimeout) as exc:
             raise HTTPException(
                 status_code=503,
                 detail="Unable to load pedestrian graph",
             ) from exc
+
+
 
         # ----------------------------------------
         # BUILD NODE DICTIONARY
