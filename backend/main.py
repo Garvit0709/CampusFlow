@@ -1,7 +1,9 @@
 
 from datetime import datetime
 from typing import Literal
-
+import asyncio
+from contextlib import asynccontextmanager
+from bidholi_db_pool import get_pool, close_pool
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, EmailStr
@@ -42,6 +44,33 @@ from auth import (
 )
 
 
+# ============================================================
+# CampusFlow Phase 9.9.2.6
+# PostgreSQL Pool Lifecycle
+# ============================================================
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Initialize the Bidholi PostgreSQL connection pool
+    at application startup and close it on shutdown.
+
+    Other CampusFlow database operations remain unchanged.
+    """
+
+    # Pool initialization is synchronous, so run it
+    # outside the event loop.
+    await asyncio.to_thread(get_pool)
+
+    print("CampusFlow: Bidholi PostgreSQL pool ready")
+
+    try:
+        yield
+
+    finally:
+        await asyncio.to_thread(close_pool)
+        print("CampusFlow: Bidholi PostgreSQL pool closed")
+
 
 app = FastAPI(
     title="CampusFlow API",
@@ -50,6 +79,7 @@ app = FastAPI(
         "JWT Authentication and Admin Analytics"
     ),
     version="2.0.0",
+    lifespan=lifespan,
 )
 
 # UPES Bidholi Navigation Routes
