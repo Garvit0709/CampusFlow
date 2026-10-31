@@ -1,0 +1,116 @@
+/* CampusFlow Phase 9.9.3.2 — route feedback */
+.cf-route-loading { display:flex; align-items:center; gap:14px; margin-top:14px; padding:16px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; color:#1e40af; }
+.cf-route-loading strong, .cf-route-error strong { font-size:14px; }
+.cf-route-loading p { margin:5px 0 0; font-size:12px; line-height:1.5; }
+.cf-route-spinner { width:25px; height:25px; flex-shrink:0; border:3px solid #bfdbfe; border-top-color:#2563eb; border-radius:50%; animation:cf-route-spin .8s linear infinite; }
+@keyframes cf-route-spin { to { transform:rotate(360deg); } }
+.cf-route-error { margin-top:14px; padding:16px; background:#fff1f2; border:1px solid #fecdd3; border-radius:12px; color:#9f1239; }
+.cf-route-error p { margin:8px 0 12px; font-size:13px; line-height:1.6; }
+.cf-route-error button { min-height:44px; padding:10px 18px; background:#be123c; color:#fff; border:0; border-radius:8px; font-weight:700; cursor:pointer; }
+.cf-route-error button:hover:not(:disabled) { background:#9f1239; }
+.cf-route-error button:disabled { opacity:.6; cursor:not-allowed; }
+@media (max-width:600px) { .cf-route-loading,.cf-route-error { padding:13px; } .cf-route-error button { width:100%; } }
+@media (prefers-reduced-motion:reduce) { .cf-route-spinner { animation:none; } }
+
+/* CampusFlow Phase 9.9.3.3 */
+
+.cf-route-availability-warning {
+  margin-top: 14px;
+  padding: 15px;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.cf-route-availability-warning strong {
+  font-size: 14px;
+}
+
+.cf-route-availability-warning p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .cf-route-availability-warning {
+    padding: 12px;
+  }
+}
+
+/* =====================================================
+   CampusFlow Phase 9.9.3.4
+   Network Status and Offline Feedback
+   ===================================================== */
+
+.cf-network-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 14px 0;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid;
+}
+
+.cf-network-banner > span {
+  flex-shrink: 0;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.cf-network-banner strong {
+  font-size: 14px;
+}
+
+.cf-network-banner p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.cf-network-offline {
+  background: #fff7ed;
+  border-color: #fed7aa;
+  color: #9a3412;
+}
+
+.cf-network-restored {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+.cf-network-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.cf-network-actions button {
+  min-height: 40px;
+  padding: 8px 13px;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cf-network-actions button:hover {
+  background: #ffffffaa;
+}
+
+@media (max-width: 600px) {
+  .cf-network-banner {
+    padding: 12px;
+  }
+
+  .cf-network-actions button {
+    flex: 1;
+  }
+}
