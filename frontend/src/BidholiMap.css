@@ -1479,3 +1479,102 @@
     animation-duration: 0.01ms !important;
   }
 }
+
+/* =====================================================
+   CAMPUSFLOW PHASE 9.9.3.2
+   ROUTE LOADING AND ERROR FEEDBACK
+   ===================================================== */
+
+.cf-route-loading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 16px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  color: #1e40af;
+}
+
+.cf-route-loading strong {
+  font-size: 14px;
+}
+
+.cf-route-loading p {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.cf-route-spinner {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  border: 3px solid #bfdbfe;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: cf-route-spin 0.8s linear infinite;
+}
+
+@keyframes cf-route-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cf-route-error {
+  margin-top: 14px;
+  padding: 16px;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  color: #9f1239;
+}
+
+.cf-route-error strong {
+  font-size: 14px;
+}
+
+.cf-route-error p {
+  margin: 8px 0 12px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.cf-route-error button {
+  min-height: 44px;
+  padding: 10px 18px;
+  background: #be123c;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cf-route-error button:hover:not(:disabled) {
+  background: #9f1239;
+}
+
+.cf-route-error button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .cf-route-loading,
+  .cf-route-error {
+    padding: 13px;
+  }
+
+  .cf-route-error button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-route-spinner {
+    animation: none;
+  }
+}
