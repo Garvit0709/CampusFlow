@@ -17,9 +17,12 @@ import BidholiMap from "./BidholiMap";
 import "leaflet/dist/leaflet.css";
 import "./App.css";
 
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "http://127.0.0.1:8000";
+const API_URL = (
+  import.meta.env.VITE_API_URL?.trim() ||
+  (import.meta.env.PROD
+    ? "https://campusflow-backend-eyl4.onrender.com"
+    : "http://127.0.0.1:8000")
+).replace(/\/$/, "");
 
 const DEFAULT_DATE = "2026-10-26";
 const DEFAULT_HOUR = "13:00";
