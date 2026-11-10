@@ -27,13 +27,14 @@ import L from "leaflet";
 import BidholiWalkingDirections from "./BidholiWalkingDirections";
 import "./BidholiRouteFeedback.css";
 
+
 const API_URL = (
-
-  import.meta.env.VITE_API_URL ||
-
-  "http://127.0.0.1:8000"
-
+  import.meta.env.VITE_API_URL?.trim() ||
+  (import.meta.env.PROD
+    ? "https://campusflow-backend-eyl4.onrender.com"
+    : "http://127.0.0.1:8000")
 ).replace(/\/$/, "");
+
 
 const ROUTE_API = `${API_URL}/bidholi/pedestrian-route`;
 
