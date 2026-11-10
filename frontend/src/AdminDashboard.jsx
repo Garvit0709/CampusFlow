@@ -17,7 +17,14 @@ import {
 
 import "./AdminDashboard.css";
 
-const API_URL = "http://127.0.0.1:8000";
+
+const API_URL = (
+  import.meta.env.VITE_API_URL?.trim() ||
+  (import.meta.env.PROD
+    ? "https://campusflow-backend-eyl4.onrender.com"
+    : "http://127.0.0.1:8000")
+).replace(/\/$/, "");
+
 
 const COLORS = {
   low: "#16a34a",
