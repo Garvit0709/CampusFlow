@@ -2,6 +2,7 @@
 from datetime import datetime
 from typing import Literal
 import asyncio
+import os
 from contextlib import asynccontextmanager
 from bidholi_db_pool import get_pool, close_pool
 from fastapi import FastAPI, HTTPException, Depends
@@ -87,15 +88,27 @@ app.include_router(bidholi_router)
 app.include_router(pedestrian_router)
 
 
+
+# ============================================================
+# CampusFlow Production CORS Configuration
+# ============================================================
+
+ALLOWED_ORIGINS = [
+    origin.strip().rstrip("/")
+    for origin in os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173"
+    ).split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type", "Authorization"],
 )
+
 
 
 # =====================================
