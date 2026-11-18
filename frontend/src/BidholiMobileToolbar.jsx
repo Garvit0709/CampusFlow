@@ -17,11 +17,6 @@ const ITEMS = [
     label: "Places",
     icon: "📍",
   },
-  {
-    id: "bidholi-mobile-editor",
-    label: "Junctions",
-    icon: "🛠️",
-  },
 ];
 
 export default function BidholiMobileToolbar() {

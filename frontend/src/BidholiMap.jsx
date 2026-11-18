@@ -1,11 +1,7 @@
 import BidholiMobileToolbar from "./BidholiMobileToolbar";
 import { useEffect, useMemo, useState } from "react";
-import BidholiJunctionEditor, {
-  JUNCTIONS,
-  JunctionMapLayer,
-  useBidholiJunctions,
-} from "./BidholiJunctionEditor";
-
+import { JunctionMapLayer } from "./BidholiJunctionEditor";
+import usePublicBidholiJunctions from "./hooks/usePublicBidholiJunctions";
 import { LayersControl } from "react-leaflet";
 
 import {
@@ -198,7 +194,7 @@ function LocationPhoto({
 // MAIN BIDHOLI MAP COMPONENT
 // ============================================================
 
-function BidholiMap({ onBack }) {
+function BidholiMap({ accountControls = null }) {
   // Location search and selection
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
@@ -208,28 +204,14 @@ function BidholiMap({ onBack }) {
   const [photoIndex, setPhotoIndex] = useState(0);
 
   // Phase 9.6: Dijkstra route state
-  const [bidholiRoute, setBidholiRoute] = useState(null);
+    const [bidholiRoute, setBidholiRoute] = useState(null);
 
-  const [junctions, setJunctions] = useBidholiJunctions();
-  const [junctionEditing, setJunctionEditing] = useState(false);
-  const [selectedJunctionId, setSelectedJunctionId] = useState("J1");
+  // Load read-only junction coordinates from PostgreSQL API.
+  const { junctions, error: junctionError } =
+    usePublicBidholiJunctions();
 
-  function placeJunction(id, latitude, longitude) {
-    const definition = JUNCTIONS.find((item) => item.id === id);
-    if (!definition) return;
-    setJunctions((current) => [
-      ...current.filter((item) => item.id !== id),
-      {
-        id,
-        name: definition.name,
-        latitude,
-        longitude,
-        type: "pedestrian_junction",
-        position_source: "manual_map_click",
-        verified_on_ground: false,
-      },
-    ]);
-  }
+
+
 
 
   // Validate the imported GPS locations.
@@ -287,13 +269,7 @@ function BidholiMap({ onBack }) {
     setPhotoIndex(0);
   }
 
-  function handleBack() {
-    if (typeof onBack === "function") {
-      onBack();
-    } else {
-      window.location.href = "/";
-    }
-  }
+
 
   function nextPhoto() {
     if (photos.length < 2) return;
@@ -337,13 +313,11 @@ function BidholiMap({ onBack }) {
           </div>
         </div>
 
-        <button
-          className="bidholi-back"
-          type="button"
-          onClick={handleBack}
-        >
-          ← Back to CampusFlow
-        </button>
+        {accountControls && (
+          <nav aria-label="CampusFlow account navigation">
+            {accountControls}
+          </nav>
+        )}
       </header>
 
       <div className="bidholi-layout">
@@ -466,18 +440,12 @@ function BidholiMap({ onBack }) {
     onRoute={setBidholiRoute}
   />
 </section>
-
-          <section id="bidholi-mobile-editor">
-  <BidholiJunctionEditor
-    editing={junctionEditing}
-    setEditing={setJunctionEditing}
-    selectedId={selectedJunctionId}
-    setSelectedId={setSelectedJunctionId}
-    junctions={junctions}
-    setJunctions={setJunctions}
-  />
-</section>
-
+{junctionError && (
+  <p className="bidholi-note" role="alert">
+    Junction markers are temporarily unavailable.
+    Routing may still work independently.
+  </p>
+)}
           {/* MAP TOOLBAR */}
           <div className="bidholi-map-toolbar">
             <div>
@@ -496,7 +464,7 @@ function BidholiMap({ onBack }) {
           </div>
 
           {/* LEAFLET MAP */}
-          <div id="bidholi-mobile-map" className={`bidholi-map${junctionEditing ? " junction-editing" : ""}`}>
+          <div id="bidholi-mobile-map" className="bidholi-map">
             <MapContainer
               center={CAMPUS_CENTER}
               zoom={18}
@@ -524,11 +492,10 @@ function BidholiMap({ onBack }) {
                 </LayersControl.BaseLayer>
               </LayersControl>
 
-              <JunctionMapLayer
-                editing={junctionEditing}
-                selectedId={selectedJunctionId}
-                junctions={junctions}
-                onPlace={placeJunction}
+             <JunctionMapLayer
+               editing={false}
+               selectedId={null}
+               junctions={junctions}
               />
 
               {/* PHASE 9.6 ROUTE LINE */}
@@ -769,6 +736,15 @@ function BidholiMap({ onBack }) {
           </p>
         </main>
       </div>
+      <footer className="cf-developer-footer">
+  <div className="cf-developer-mark">GM</div>
+
+  <div className="cf-developer-info">
+    <span>Designed & Developed by</span>
+    <strong>Garvit Maheshwari</strong>
+    <small>© 2026 Garvit Maheshwari</small>
+  </div>
+</footer>
       <BidholiMobileToolbar />
     </div>
   );
