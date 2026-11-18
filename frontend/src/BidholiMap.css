@@ -1578,3 +1578,56 @@
     animation: none;
   }
 }
+/* CampusFlow v1.0 - Developer signature */
+
+.cf-developer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 20px;
+  background: #10243a;
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cf-developer-mark {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #6b9bc3;
+  border-radius: 12px;
+  background: #213d5a;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.cf-developer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cf-developer-info span,
+.cf-developer-info small {
+  font-size: 11px;
+  color: #b8ccdf;
+}
+
+.cf-developer-info strong {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .cf-developer-footer {
+    padding: 16px 12px;
+    padding-bottom: calc(
+      90px + env(safe-area-inset-bottom, 0px)
+    );
+  }
+}

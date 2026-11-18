@@ -1,100 +1,260 @@
+# CampusFlow v1.0
 
-# CampusFlow
+### Smart Campus Navigation System for UPES Bidholi
 
-### Intelligent Campus Navigation & Crowd Prediction System
+CampusFlow is a full-stack web application developed to help students and visitors explore the UPES Bidholi campus, locate buildings, and calculate estimated pedestrian routes.
 
-CampusFlow is a full-stack campus navigation platform that combines shortest-path algorithms, crowd reporting, machine learning, and analytics to help users explore a fictional demonstration campus.
+The project combines interactive mapping, graph algorithms, PostgreSQL, REST APIs, and role-based authentication to provide a campus-specific navigation experience.
+
+**Developed by:** Garvit Maheshwari (GM)
+
+**Live Website:** https://garvit0709.github.io/CampusFlow/
+
+**Backend API:** https://campusflow-backend-eyl4.onrender.com/docs
+
+**GitHub Repository:** https://github.com/Garvit0709/CampusFlow
+
+---
 
 ## Features
 
-- Interactive campus navigation using React and Leaflet
-- Shortest-path routing using Dijkstra's algorithm
-- Congestion-aware route recommendations
-- Machine learning-based crowd prediction
-- Student crowd reporting
-- JWT authentication and role-based access control
-- Administrator analytics dashboard
-- PostgreSQL database integration
+### Interactive Bidholi Campus Map
+- Public campus map without mandatory login.
+- 30 mapped campus locations.
+- Building search and category filtering.
+- Interactive markers and location information.
+- OpenStreetMap and satellite map layers.
+- Responsive layout and mobile navigation controls.
 
-## Tech Stack
+### Pedestrian Navigation
+- Dijkstra-based shortest-path calculation.
+- Shortest-distance and stair-free route comparison.
+- Pedestrian graph containing 30 buildings and 10 junctions.
+- 59 mapped pedestrian connections.
+- Estimated route distances and walking directions.
+- Read-only junction coordinates retrieved from the backend API.
 
-**Frontend:** React, Vite, JavaScript, Leaflet, Recharts, CSS
+### Authentication and Administration
+- Optional student authentication.
+- JWT-based authentication.
+- Argon2 password hashing.
+- Role-based authorization.
+- Protected administrative dashboard and analytics endpoints.
+- Public navigation remains accessible without login.
 
-**Backend:** Python, FastAPI, REST APIs
+### Additional Research and Development
+Earlier development phases included congestion-aware routing, crowd reporting, and a Random Forest-based crowd prediction model trained on synthetic data.
 
-**Database:** PostgreSQL
+These experimental capabilities are retained in the broader codebase but are not the primary focus of the public Bidholi v1.0 interface.
 
-**Machine Learning:** Scikit-learn, Random Forest, Pandas, NumPy
+---
 
-**Security:** JWT, Argon2 password hashing, role-based authorization
+## Technology Stack
 
-## Architecture
+| Layer | Technologies |
+|---|---|
+| Frontend | React, JavaScript, Vite, CSS |
+| Mapping | React Leaflet, Leaflet, OpenStreetMap |
+| Backend | Python, FastAPI, REST APIs |
+| Database | PostgreSQL, Neon |
+| Routing | Graph algorithms, Dijkstra's algorithm |
+| Authentication | JWT, Argon2, role-based authorization |
+| Experimental ML | Scikit-learn, Pandas, NumPy, Random Forest |
+| Frontend Hosting | GitHub Pages |
+| Backend Hosting | Render |
+| Deployment | GitHub Actions |
 
-React Frontend
-    |
-    v
-FastAPI Backend
-    |
-    +-- PostgreSQL Database
-    |
-    +-- Dijkstra Routing Engine
-    |
-    +-- Random Forest Prediction Model
+---
 
-## Machine Learning
+## System Architecture
 
-The Random Forest classifier was trained on 7,560 synthetic crowd observations across six fictional campus locations.
+```text
+                   CampusFlow
+                       |
+                React + Vite
+                       |
+                Leaflet Campus Map
+                       |
+                 FastAPI REST API
+                       |
+          +------------+------------+
+          |                         |
+    PostgreSQL / Neon        Routing Engine
+          |                         |
+    Campus Locations         Dijkstra Algorithm
+    Pedestrian Graph         Route Comparison
+    Authentication Data      Walking Directions
+```
 
-Evaluation on a chronologically held-out synthetic test set:
+The frontend is deployed using GitHub Pages, while the FastAPI backend is hosted on Render and connects to PostgreSQL.
 
-- Random Forest accuracy: 75.40%
-- Majority-class baseline accuracy: 42.53%
-- Training records: 6,048
-- Testing records: 1,512
+---
 
-These metrics describe synthetic-data performance and do not establish real-world prediction accuracy.
+## Pedestrian Graph
 
-## Routing Modes
+The Bidholi navigation system currently contains:
 
-1. Shortest Distance
-2. Smart Routing using recent crowd reports
-3. ML-Powered Smart Routing using predicted congestion
+| Component | Count |
+|---|---:|
+| Campus buildings and locations | 30 |
+| Pedestrian junctions | 10 |
+| Total graph nodes | 40 |
+| Pedestrian edges | 59 |
+| Ordered building pairs | 870 |
+| Route test cases | 1,740 |
 
-## Security
+The routing engine supports shortest-distance and stair-free route calculations.
 
-- Student registration and login
-- Argon2 password hashing
-- JWT-based authentication
-- Protected administrator analytics APIs
-- Role-based access control
+Route distances are estimates. The mapped pedestrian geometry has not been fully verified against actual campus walkways.
 
-This is a demonstration project. Additional security hardening is required before production deployment.
+---
 
-## Local Setup
+## Testing and Validation
 
-### Backend
+### Routing Tests
 
-Create and activate a Python virtual environment inside `backend`, then run:
+The automated routing test suite evaluated 1,740 route cases.
 
-    python -m pip install -r requirements.txt
-    python ml/generate_dataset.py
-    python ml/train_model.py
-    python -m uvicorn main:app --reload
+| Metric | Result |
+|---|---:|
+| Total tests | 1,740 |
+| Passed | 1,740 |
+| Failed | 0 |
+| Pass rate | 100% |
 
-Configure PostgreSQL and environment variables before starting the backend.
+### Database Connectivity
 
-### Frontend
+The PostgreSQL connection pool successfully completed 30 test queries.
 
-    cd frontend
-    npm install
-    npm run dev
+### Frontend Validation
 
-Open http://localhost:5173
+The following functionality was manually tested:
 
-## Project Status
+- Public map access without login.
+- Building markers and search.
+- Shortest and stair-free routing.
+- Walking directions.
+- Optional authentication.
+- Protected admin access.
+- Logout to public map.
+- Removal of the demo campus and Junction Editor from the active interface.
 
-Full-stack demonstration application under active development.
+### Lighthouse Audit
+
+| Category | Score |
+|---|---:|
+| Performance | 44 |
+| Accessibility | 100 |
+| Best Practices | 96 |
+| SEO | 91 |
+
+The Lighthouse audit was conducted against a local development build. Performance optimization is deferred to a future release.
+
+---
+
+## Local Development
+
+### Prerequisites
+
+- Python 3.12 recommended for consistency with the deployed backend.
+- Node.js 22.
+- PostgreSQL database access.
+- Git.
+
+### Backend Setup
+
+```powershell
+cd backend
+
+py -3.12 -m venv venv
+
+.\venv\Scripts\Activate.ps1
+
+python -m pip install -r requirements.txt
+
+python -m uvicorn main:app --reload
+```
+
+Configure the database and JWT environment variables before starting the backend.
+
+Use `backend/.env.example` as a configuration reference. Never commit real passwords or secrets.
+
+### Frontend Setup
+
+```powershell
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+The frontend uses `VITE_API_URL` to identify the FastAPI backend.
+
+For the deployed application:
+
+```text
+VITE_API_URL=https://campusflow-backend-eyl4.onrender.com
+```
+
+When developing locally, ensure the backend permits the frontend origin through its CORS configuration.
+
+---
+
+## Deployment
+
+**Frontend:** GitHub Pages
+
+https://garvit0709.github.io/CampusFlow/
+
+**Backend:** Render
+
+https://campusflow-backend-eyl4.onrender.com
+
+**Database:** Neon PostgreSQL
+
+GitHub Actions builds the Vite application and publishes the production frontend after changes are merged into the `main` branch.
+
+---
+
+## Known Limitations
+
+- Pedestrian distances are estimated.
+- Some route geometries are not ground-verified.
+- Stair-free routing excludes mapped staircase connections but does not guarantee full accessibility.
+- Building photographs are deferred to a future version.
+- Mobile performance optimization remains pending.
+- The backend hosting service may experience cold-start delays.
+
+---
+
+## Future Improvements
+
+- Building photograph galleries.
+- Improved route geometry accuracy.
+- On-campus GPS validation.
+- Accessibility verification of pedestrian pathways.
+- Frontend performance optimization.
+- Expanded campus navigation coverage.
+
+---
+
+## Developer
+
+**Garvit Maheshwari**
+
+Full-Stack Developer | Software Development | Python | React | PostgreSQL
+
+GitHub: https://github.com/Garvit0709
+
+CampusFlow was designed and developed as an individual software development project.
+
+© 2026 Garvit Maheshwari.
+
+---
 
 ## Disclaimer
 
-Campus locations and crowd training data are fictional or synthetic. Route estimates and crowd predictions are not validated against real campus conditions.
+CampusFlow is an independently developed campus navigation project and is not an official UPES navigation service.
+
+Location information and pedestrian routes are provided for educational and demonstration purposes. Users should verify actual walkway conditions and accessibility before relying on route recommendations.
